@@ -9,27 +9,27 @@ export const HeroSection = () => {
   const [displayedCode, setDisplayedCode] = useState("");
 
   const codeSnippets = [
-    "import { FullStackDeveloper } from 'sahil.dev';",
+    "import { SoftwareEngineer } from 'aayush.dev';",
     "",
-    "const developer = new FullStackDeveloper({",
-    "  name: 'Sahil',",
-    "  stack: ['React', 'Next.js', 'Node.js', 'TypeScript'],",
-    "  focus: 'Building scalable web applications',",
-    "  status: 'Open to new opportunities'",
+    "const developer = new SoftwareEngineer({",
+    "  name: 'Aayush Sinha',",
+    "  stack: ['React.js', 'JavaScript', 'Python', 'MongoDB'],",
+    "  focus: 'Creating modern, responsive web experiences',",
+    "  status: 'Available for new opportunities'",
     "});",
     "",
     "await developer.launchPortfolio();",
-    "// Featured: E-commerce, SaaS, Enterprise, Startup MVPs",
+    "// Featured: Weather App, Expense Tracker, Analytics Dashboard",
     "",
     "developer.connect();",
-    "console.log('🚀 Let's build something exceptional together!');"
+    "console.log('🚀 Let's build something amazing together!');"
   ];
 
   const achievements = [
-    { number: "1+", label: "Years in Production", icon: <Shield className="h-3 w-3" /> },
-    { number: "15+", label: "Projects Delivered", icon: <TrendingUp className="h-3 w-3" /> },
-    { number: "100%", label: "Client Satisfaction", icon: <Award className="h-3 w-3" /> },
-    { number: "15+", label: "Projects completed", icon: <Zap className="h-3 w-3" /> }
+    { number: "2025", label: "Graduate", icon: <Shield className="h-3 w-3" /> },
+    { number: "6+", label: "Projects", icon: <TrendingUp className="h-3 w-3" /> },
+    { number: "5+", label: "Certifications", icon: <Award className="h-3 w-3" /> },
+    { number: "7.08", label: "CGPA", icon: <Zap className="h-3 w-3" /> }
   ];
 
   useEffect(() => {
@@ -55,7 +55,7 @@ export const HeroSection = () => {
 
   const handleViewResume = () => {
     // Open resume in new tab
-    window.open('/Sahil-resume.pdf', '_blank', 'noopener,noreferrer');
+    window.open('https://drive.google.com/file/d/1PXu4Ov5IKEvmkTfvJkW5NlJEPkv52YEj/view?usp=drive_link', '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -100,19 +100,18 @@ export const HeroSection = () => {
           
           <div className="flex-1 text-center lg:text-left max-w-2xl mx-auto lg:mx-0">
             <motion.div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-8 backdrop-blur-sm" variants={{ hidden: { y: 30, opacity: 0 }, visible: { y: 0, opacity: 1, transition: { duration: 0.8 } } }}>
-              <Briefcase className="h-4 w-4" /> Currently Accepting new Opportunities
+              <Briefcase className="h-4 w-4" /> Available for new opportunities
             </motion.div>
 
             <motion.h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight" variants={{ hidden: { y: 30, opacity: 0 }, visible: { y: 0, opacity: 1, transition: { duration: 0.8 } } }}>
-              <span className="block text-foreground">I'm Sahil</span>
+              <span className="block text-foreground">I'm Aayush</span>
               <motion.span className="block bg-gradient-to-r from-primary via-purple-600 to-pink-600 bg-clip-text text-transparent mt-2" animate={{ backgroundPosition: ['0%', '100%', '0%'] }} transition={{ duration: 8, repeat: Infinity }} style={{ backgroundSize: '200% 100%' }}>
-                Full-Stack Engineer
+                React.js Specialist
               </motion.span>
             </motion.h1>
 
             <motion.p className="text-lg sm:text-xl text-muted-foreground mt-6 leading-relaxed max-w-2xl" variants={{ hidden: { y: 30, opacity: 0 }, visible: { y: 0, opacity: 1, transition: { duration: 0.8 } } }}>
-              I build <span className="text-primary font-semibold">high-performance web applications</span> that drive business growth. Specializing in React, Node.js, and scalable architecture for startups and enterprises.
-            </motion.p>
+              I craft <span className="text-primary font-semibold">modern, responsive web experiences</span> using cutting-edge technologies. Specializing in React.js and building user-centric applications for web development.</motion.p>
 
             <motion.div className="grid grid-cols-2 sm:grid-cols-4 gap-4 my-8" variants={{ hidden: { y: 30, opacity: 0 }, visible: { y: 0, opacity: 1, transition: { duration: 0.8 } } }}>
               {achievements.map((achievement, index) => (
@@ -129,13 +128,13 @@ export const HeroSection = () => {
             <motion.div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start" variants={{ hidden: { y: 30, opacity: 0 }, visible: { y: 0, opacity: 1, transition: { duration: 0.8 } } }}>
               <motion.a href="#projects" className="group relative overflow-hidden px-8 py-4 rounded-xl font-semibold bg-gradient-to-r from-primary to-purple-600 text-primary-foreground shadow-lg hover:shadow-xl text-sm flex items-center justify-center gap-3" whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}>
                 <Code className="h-5 w-5" /> 
-                <span>View Case Studies</span>
+                <span>View Projects</span>
                 <TrendingUp className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
               </motion.a>
               
               <motion.a href="#contact" className="group relative overflow-hidden px-8 py-4 rounded-xl font-semibold border border-primary/50 text-foreground hover:border-primary transition-all duration-300 bg-background/80 backdrop-blur-sm text-sm flex items-center justify-center gap-3" whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}>
                 <Mail className="h-4 w-4" /> 
-                <span>Technical Interview</span>
+                <span>Get in Touch</span>
               </motion.a>
               
               <motion.button 
@@ -145,13 +144,13 @@ export const HeroSection = () => {
                 whileTap={{ scale: 0.95 }}
               >
                 <Download className="h-4 w-4" /> 
-                <span>View Resume</span>
+                <span>Download Resume</span>
               </motion.button>
             </motion.div>
 
             <motion.div className="mt-6 text-center lg:text-left" variants={{ hidden: { y: 30, opacity: 0 }, visible: { y: 0, opacity: 1, transition: { duration: 0.8 } } }}>
               <div className="text-sm text-muted-foreground">
-                🚀 <span className="text-primary font-semibold">Available Immediately</span> for Full-Stack and Frontend roles
+                🚀 <span className="text-primary font-semibold">React.js Specialist</span> based in Delhi, India
               </div>
             </motion.div>
           </div>

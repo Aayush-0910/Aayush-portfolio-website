@@ -94,7 +94,7 @@ export const ContactSection = () => {
     } catch (error) {
       toast({
         title: "Oops! Something went wrong",
-        description: "Please try again or email me directly at codewithkinu@gmail.com",
+        description: "Please try again or email me directly at sinhaaayush2001@gmail.com",
         variant: "destructive"
       });
     } finally {
@@ -133,10 +133,10 @@ export const ContactSection = () => {
                 <div>
                   <p className="text-xs sm:text-sm text-muted-foreground">Email</p>
                   <a
-                    href="mailto:codewithkinu@gmail.com"
+                    href="mailto:sinhaaayush2001@gmail.com"
                     className="text-sm sm:text-base font-medium hover:text-primary transition-colors"
                   >
-                    codewithkinu@gmail.com
+                    sinhaaayush2001@gmail.com
                   </a>
                 </div>
               </div>
@@ -148,10 +148,10 @@ export const ContactSection = () => {
                 <div>
                   <p className="text-xs sm:text-sm text-muted-foreground">Phone</p>
                   <a
-                    href="tel:+919315145594"
+                    href="tel:+918383860320"
                     className="text-sm sm:text-base font-medium hover:text-primary transition-colors"
                   >
-                    +91 9315145594
+                    +91 8383860320
                   </a>
                 </div>
               </div>
@@ -163,7 +163,7 @@ export const ContactSection = () => {
                 <div>
                   <p className="text-xs sm:text-sm text-muted-foreground">Location</p>
                   <span className="text-sm sm:text-base font-medium">
-                    Bengaluru, Karnataka India
+                    Delhi, India
                   </span>
                 </div>
               </div>
@@ -176,22 +176,17 @@ export const ContactSection = () => {
                   {
                     icon: Linkedin,
                     label: "LinkedIn",
-                    url: "https://www.linkedin.com/in/codewithkinu",
-                  },
-                  {
-                    icon: Twitter,
-                    label: "Twitter",
-                    url: "#",
+                    url: "https://www.linkedin.com/in/aayush-sinha-1a1a4b1a5/",
                   },
                   {
                     icon: Github,
                     label: "GitHub",
-                    url: "https://github.com/Sahilmd01",
+                    url: "https://github.com/Aayush-0910",
                   },
                   {
-                    icon: Instagram,
-                    label: "Instagram",
-                    url: "https://www.instagram.com/dubbinut",
+                    icon: Mail,
+                    label: "Email",
+                    url: "mailto:sinhaaayush2001@gmail.com",
                   },
                 ].map((social, index) => (
                   <a
