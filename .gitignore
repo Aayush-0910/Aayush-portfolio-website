@@ -7,6 +7,9 @@ __pycache__/
 *.so
 
 # Distribution / packaging
+.sampleimage
+.gitignore
+.hintrc
 .Python
 build/
 develop-eggs/
