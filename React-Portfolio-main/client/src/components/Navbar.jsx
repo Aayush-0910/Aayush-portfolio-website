@@ -147,7 +147,7 @@ export const Navbar = () => {
       >
         {/* Website Globe Button */}
         <motion.a
-          href="https://avoliq.vercel.app"
+          href="/avoliq"
           target="_blank"
           rel="noopener noreferrer"
           className={cn(
@@ -166,7 +166,7 @@ export const Navbar = () => {
 
         {/* GitHub Button */}
         <motion.a
-          href="https://github.com/sahilmd01" 
+          href="https://github.com/Aayush-0910" 
           target="_blank"
           rel="noopener noreferrer"
           className={cn(
@@ -185,7 +185,7 @@ export const Navbar = () => {
 
         {/* LinkedIn Button */}
         <motion.a
-          href="https://linkedin.com/in/codewithkinu" 
+          href="https://www.linkedin.com/in/aayush-sinha-1a1a4b1a5/" 
           target="_blank"
           rel="noopener noreferrer"
           className={cn(

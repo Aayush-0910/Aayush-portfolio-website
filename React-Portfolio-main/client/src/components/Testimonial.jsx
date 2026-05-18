@@ -15,7 +15,7 @@ export const TestimonialSection = () => {
       id: 1,
       name: "Alex Johnson",
       role: "Product Director at TechCorp",
-      content: `Working with Sahil was seamless from day one. Not only did they deliver a full-stack solution ahead of schedule, but they also communicated clearly throughout the project. It's rare to find a developer who understands both the tech and the business side so well`,
+      content: `Working with Aayush was seamless from day one. Not only did they deliver a full-stack solution ahead of schedule, but they also communicated clearly throughout the project. It's rare to find a developer who understands both the tech and the business side so well`,
       rating: 5,
       image: "/testimonials/alex-johnson.png"
     },
@@ -31,7 +31,7 @@ export const TestimonialSection = () => {
       id: 3,
       name: "David Wilson",
       role: "CTO at Startup Ventures",
-      content: `From wireframes to deployment, Sahil owned the entire stack with confidence and creativity. The final product is fast, reliable, and looks incredible. I wouldn't hesitate to work with them again.`,
+      content: `From wireframes to deployment, Aayush owned the entire stack with confidence and creativity. The final product is fast, reliable, and looks incredible. I wouldn't hesitate to work with them again.`,
       rating: 5,
       image: "/testimonials/David Wilson.png"
     },

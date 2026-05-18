@@ -460,7 +460,7 @@ export const ProjectsSection = () => {
               </motion.a>
               
               <motion.a
-                href="https://github.com/sahilmd01"
+                href="https://github.com/Aayush-0910"
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.05 }}
