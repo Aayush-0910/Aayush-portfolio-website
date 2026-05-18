@@ -2,6 +2,7 @@ import { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { Home } from "./pages/Home";
+import { Avoliq } from "./pages/Avoliq";
 import { NotFound } from "./pages/NotFound";
 import { Toaster } from "@/components/ui/toaster";
 import WelcomeScreen from "@/components/WelcomeScreen";
@@ -24,6 +25,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route index element={<Home />} />
+            <Route path="avoliq" element={<Avoliq />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Analytics />

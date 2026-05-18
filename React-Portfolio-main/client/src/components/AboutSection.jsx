@@ -1,6 +1,112 @@
 import React, { useState, useEffect } from 'react';
 import { Briefcase, Code, User, Download, Calendar, Sparkles, Target, Github, Linkedin, Twitter, Mail, Star } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+const AIAvatar = () => (
+  <div className="w-full h-full bg-slate-950 flex items-center justify-center p-4">
+    <div className="relative w-full h-full rounded-2xl overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 border-4 border-primary/20 shadow-2xl group">
+
+      {/* Live Glow */}
+      <div className="absolute inset-0 bg-blue-500/10 animate-pulse" />
+
+      {/* Animated Rings */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="absolute w-40 h-40 border border-blue-400/30 rounded-full animate-ping" />
+        <div className="absolute w-56 h-56 border border-cyan-400/20 rounded-full animate-spin duration-[10s]" />
+      </div>
+
+      <svg
+        viewBox="0 0 260 260"
+        className="w-full h-full relative z-10 transition-transform duration-500 group-hover:scale-105"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          <linearGradient id="aiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#cbd5e1" />
+            <stop offset="100%" stopColor="#60a5fa" />
+          </linearGradient>
+        </defs>
+
+        {/* Background */}
+        <rect
+          x="10"
+          y="10"
+          width="240"
+          height="240"
+          rx="40"
+          ry="40"
+          fill="url(#aiGrad)"
+          opacity="0.12"
+        />
+
+        {/* Head */}
+        <circle cx="130" cy="120" r="52" fill="#ffffff" opacity="0.08" />
+        <circle cx="130" cy="120" r="40" fill="#1e293b" />
+
+        {/* Eyes */}
+        <circle cx="115" cy="110" r="6" fill="#60a5fa">
+          <animate
+            attributeName="opacity"
+            values="1;0.3;1"
+            dur="2s"
+            repeatCount="indefinite"
+          />
+        </circle>
+
+        <circle cx="145" cy="110" r="6" fill="#60a5fa">
+          <animate
+            attributeName="opacity"
+            values="1;0.3;1"
+            dur="2s"
+            repeatCount="indefinite"
+          />
+        </circle>
+
+        {/* Mouth */}
+        <path
+          d="M110 138c8 8 32 8 40 0"
+          fill="none"
+          stroke="#38bdf8"
+          strokeWidth="5"
+          strokeLinecap="round"
+        >
+          <animate
+            attributeName="d"
+            dur="3s"
+            repeatCount="indefinite"
+            values="
+              M110 138c8 8 32 8 40 0;
+              M110 142c8 -4 32 -4 40 0;
+              M110 138c8 8 32 8 40 0
+            "
+          />
+        </path>
+
+        {/* AI Circuits */}
+        <path
+          d="M90 170l-24 24m104-24l24 24"
+          stroke="#93c5fd"
+          strokeWidth="5"
+          strokeLinecap="round"
+          opacity="0.7"
+        />
+
+        <path
+          d="M60 60l32 24M60 200l32-24M200 60l-32 24M200 200l-32-24"
+          stroke="#38bdf8"
+          strokeWidth="4"
+          strokeLinecap="round"
+          opacity="0.6"
+        />
+      </svg>
+
+      {/* Live Badge */}
+      <div className="absolute bottom-4 right-4 inline-flex items-center gap-2 rounded-full bg-slate-950/90 px-3 py-2 text-xs text-slate-100 border border-slate-700 z-20">
+        <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+        Live AI
+      </div>
+    </div>
+  </div>
+);
 
 export const AboutSection = () => {
   const [activeTab, setActiveTab] = useState('personal');
@@ -101,10 +207,7 @@ export const AboutSection = () => {
                   {/* Profile Image */}
                   <div className="relative flex-shrink-0">
                     <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-4 border-primary/20 shadow-2xl transition-all duration-500 group-hover:border-primary/40 group-hover:scale-105 md:group-hover:scale-110 relative">
-                      <img src="/profile-logo.png" alt="Aayush Sinha" className="w-full h-full object-cover" />
-                      <div className="absolute -bottom-2 -right-2 w-6 h-6 sm:w-8 sm:h-8 bg-green-500 rounded-full border-4 border-background flex items-center justify-center">
-                        <div className="w-2 h-2 bg-green-300 rounded-full animate-pulse" />
-                      </div>
+                      <AIAvatar />
                     </div>
                   </div>
 

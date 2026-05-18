@@ -36,8 +36,8 @@ A fast, modern, and responsive developer portfolio website built using **React**
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/react-vite-portfolio.git
-   cd react-vite-portfolio
+   git clone https://github.com/Aayush-0910/Aayush-portfolio-website.git
+   cd Aayush-portfolio-website
    ````
 
 2. **Install dependencies**
@@ -74,11 +74,11 @@ You can deploy the site using platforms like:
 
 ## 📬 Contact
 
-Feel free to connect with me through the Contact section on the site or via [LinkedIn](https://linkedin.com/in/codewithkinu) or [Email](mailto:codeithkinu@gmail.com).
+Feel free to connect with me through the Contact section on the site or via [LinkedIn](https://www.linkedin.com/in/aayush-sinha-1a1a4b1a5/) or [Email](mailto:sinhaaayush2001@gmail.com).
 
 ---
 
-**Made with ❤️ by Sahil  using React, Vite & Tailwind CSS**
+**Made with ❤️ by Aayush Sinha using React, Vite & Tailwind CSS**
 
 
 ## 📬 here is privious homepage.. -----
@@ -187,7 +187,7 @@ export const HeroSection = () => {
               className="text-primary inline-block ml-3 relative"
               variants={itemVariants}
             >
-              Sahil
+              Aayush
               <motion.span 
                 className="absolute -bottom-2 left-0 h-1 bg-primary w-full"
                 initial={{ scaleX: 0 }}
