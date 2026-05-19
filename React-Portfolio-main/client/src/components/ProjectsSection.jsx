@@ -1,117 +1,86 @@
-import { ArrowRight, ExternalLink, Github, ChevronUp, Star, Code, ChevronDown, MoveRight, Filter, Sparkles, Award, Zap, Play, Eye, Calendar, Users, X } from "lucide-react";
-import { useState, useRef } from "react";
+import { ArrowRight, Github, ChevronUp, Star, Code, Sparkles, Zap, Play, Eye, X } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-
-const projects = [
-  {
-    id: 1,
-    title: "Weather & AQI Dashboard",
-    category: "React",
-    description: "A comprehensive weather and air quality monitoring dashboard with real-time data visualization and forecasting capabilities.",
-    image: "/projects/weather-dashboard.png",
-    video: "/projects/videos/weather-demo.mp4",
-    tags: ["React.js", "Tailwind CSS", "Chart.js", "Weather API"],
-    demoUrl: "https://weather-web-app-flax.vercel.app",
-    githubUrl: "https://github.com/Aayush-0910/Weather-app",
-    featured: true,
-    accentColor: "from-blue-500 to-cyan-600",
-    status: "Live",
-    highlights: ["Real-time weather data", "Air quality index", "Data visualization"]
-  },
-  {
-    id: 2,
-    title: "Expense Tracker",
-    category: "React",
-    description: "A smart expense tracking application with categorization, budget management, and insightful analytics.",
-    image: "/projects/expense-tracker.png",
-    video: "/projects/videos/expense-demo.mp4",
-    tags: ["React.js", "Bootstrap", "Context API"],
-    demoUrl: "https://expense-tracker-zkko.vercel.app",
-    githubUrl: "https://github.com/Aayush-0910/Expense-Tracker",
-    featured: true,
-    accentColor: "from-emerald-500 to-teal-600",
-    status: "Live",
-    highlights: ["Expense categorization", "Budget tracking", "Data analysis"]
-  },
-  {
-    id: 3,
-    title: "Sales Analytics System",
-    category: "Python",
-    description: "A data-driven analytics platform for sales performance tracking with advanced visualization and reporting.",
-    image: "/projects/sales-analytics.png",
-    video: "/projects/videos/sales-demo.mp4",
-    tags: ["Python", "SQLite", "Matplotlib", "Pandas"],
-    demoUrl: "#",
-    githubUrl: "#",
-    accentColor: "from-purple-500 to-indigo-600",
-    status: "Completed",
-    highlights: ["Data analysis", "Performance tracking", "Advanced reporting"]
-  },
-  {
-    id: 4,
-    title: "Authentication & Productivity App",
-    category: "React",
-    description: "A feature-rich productivity application with secure user authentication and task management capabilities.",
-    image: "/projects/auth-app.png",
-    video: "/projects/videos/auth-demo.mp4",
-    tags: ["React.js", "Bootstrap", "Context API"],
-    demoUrl: "#",
-    githubUrl: "#",
-    accentColor: "from-amber-500 to-orange-600",
-    status: "Completed",
-    highlights: ["User authentication", "Task management", "Context API"]
-  },
-  {
-    id: 5,
-    title: "Interactive Games Portfolio",
-    category: "JavaScript",
-    description: "A collection of interactive games including Tic-Tac-Toe and Stopwatch, showcasing vanilla JavaScript skills.",
-    image: "/projects/games.png",
-    video: "/projects/videos/games-demo.mp4",
-    tags: ["HTML5", "CSS3", "JavaScript"],
-    demoUrl: "#",
-    githubUrl: "#",
-    accentColor: "from-rose-500 to-pink-600",
-    status: "Completed",
-    highlights: ["Tic-Tac-Toe game", "Stopwatch utility", "Interactive UI"]
-  }
-];
+import { projects } from "@/lib/projectsData";
+import { cn } from "@/lib/utils";
 
 const categoryColors = {
-  "React": "from-blue-500/20 to-cyan-600/20 text-blue-600 border-blue-500/30",
-  "Python": "from-purple-500/20 to-indigo-600/20 text-purple-600 border-purple-500/30",
-  "JavaScript": "from-amber-500/20 to-orange-600/20 text-amber-600 border-amber-500/30"
+  React: "from-blue-500/20 to-cyan-600/20 text-blue-600 border-blue-500/30",
+  Python: "from-purple-500/20 to-indigo-600/20 text-purple-600 border-purple-500/30",
+  JavaScript: "from-amber-500/20 to-orange-600/20 text-amber-600 border-amber-500/30"
 };
 
 export const ProjectsSection = () => {
   const [showAll, setShowAll] = useState(false);
-  const [activeFilter, setActiveFilter] = useState("All");
-  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeStatus, setActiveStatus] = useState("All");
+  const [activeTag, setActiveTag] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
   const [hoveredProject, setHoveredProject] = useState(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const videoRef = useRef(null);
+  const closeButtonRef = useRef(null);
   const sectionRef = useRef(null);
-  
+
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"]
   });
-  
+
   const yBg = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
   const opacityBg = useTransform(scrollYProgress, [0, 0.5, 1], [0.1, 0.2, 0.1]);
 
-  const filteredProjects = activeFilter === "All" 
-    ? projects 
-    : projects.filter(project => project.category === activeFilter);
-  
+  const categories = ["All", ...new Set(projects.map((project) => project.category))];
+  const statuses = ["All", ...new Set(projects.map((project) => project.status))];
+  const tags = ["All", ...new Set(projects.flatMap((project) => project.tags))];
+
+  const normalizedSearch = searchQuery.trim().toLowerCase();
+
+  const filteredProjects = projects.filter((project) => {
+    if (activeCategory !== "All" && project.category !== activeCategory) return false;
+    if (activeStatus !== "All" && project.status !== activeStatus) return false;
+    if (activeTag !== "All" && !project.tags.includes(activeTag)) return false;
+
+    if (!normalizedSearch) return true;
+
+    const haystack = [
+      project.title,
+      project.description,
+      project.category,
+      project.status,
+      project.role,
+      project.timeline,
+      ...project.tags
+    ]
+      .join(" ")
+      .toLowerCase();
+
+    return haystack.includes(normalizedSearch);
+  });
+
   const displayedProjects = showAll ? filteredProjects : filteredProjects.slice(0, 3);
 
-  const categories = ["All", ...new Set(projects.map(project => project.category))];
-
   const handleFilterChange = (category) => {
-    setActiveFilter(category);
+    setActiveCategory(category);
     setShowAll(false);
-    setIsMobileFilterOpen(false);
+  };
+
+  const handleStatusChange = (status) => {
+    setActiveStatus(status);
+    setShowAll(false);
+  };
+
+  const handleTagChange = (tag) => {
+    setActiveTag(tag);
+    setShowAll(false);
+  };
+
+  const resetFilters = () => {
+    setActiveCategory("All");
+    setActiveStatus("All");
+    setActiveTag("All");
+    setSearchQuery("");
+    setShowAll(false);
   };
 
   const handleVideoPlay = (project) => {
@@ -125,6 +94,26 @@ export const ProjectsSection = () => {
       videoRef.current.currentTime = 0;
     }
   };
+
+  useEffect(() => {
+    if (selectedVideo && closeButtonRef.current) {
+      closeButtonRef.current.focus();
+    }
+
+    const handleEscape = (event) => {
+      if (event.key === "Escape") {
+        handleCloseVideo();
+      }
+    };
+
+    if (selectedVideo) {
+      window.addEventListener("keydown", handleEscape);
+    }
+
+    return () => {
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, [selectedVideo]);
 
   const ProjectHighlights = ({ highlights }) => (
     <div className="space-y-2">
@@ -145,7 +134,10 @@ export const ProjectsSection = () => {
     >
       {/* Clean Background */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-primary/5 to-background" />
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-br from-background via-primary/5 to-background"
+          style={{ translateY: yBg, opacity: opacityBg }}
+        />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 max-w-7xl relative">
@@ -190,31 +182,110 @@ export const ProjectsSection = () => {
           </motion.p>
         </motion.div>
 
-        {/* Simple Filter */}
-        <motion.div 
-          className="flex justify-center mb-12"
+        {/* Search + Filter Panel */}
+        <motion.div
+          className="space-y-6 mb-12"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
           viewport={{ once: true }}
         >
-          <div className="inline-flex flex-wrap justify-center gap-2">
-            {categories.map((category) => (
-              <motion.button
-                key={category}
-                onClick={() => handleFilterChange(category)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 border ${
-                  activeFilter === category
-                    ? "bg-primary text-primary-foreground border-primary"
-                    : "bg-background text-muted-foreground border-border hover:border-primary hover:text-primary"
-                }`}
-              >
-                {category}
-              </motion.button>
-            ))}
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="relative w-full max-w-2xl">
+              <input
+                type="search"
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                placeholder="Search projects, tech, role, or status"
+                className="w-full rounded-2xl border border-border bg-background px-5 py-4 text-sm text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
+                aria-label="Search projects"
+              />
+            </div>
+            <button
+              type="button"
+              onClick={resetFilters}
+              className="inline-flex items-center justify-center rounded-2xl border border-border bg-background px-6 py-4 text-sm font-medium text-foreground transition hover:border-primary hover:text-primary"
+            >
+              Reset filters
+            </button>
           </div>
+
+          <div className="grid gap-3 lg:grid-cols-3">
+            <div className="flex flex-wrap gap-2">
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  type="button"
+                  onClick={() => handleFilterChange(category)}
+                  aria-pressed={activeCategory === category}
+                  className={cn(
+                    "rounded-full px-4 py-2 text-sm font-medium transition duration-200 border",
+                    activeCategory === category
+                      ? "bg-primary text-primary-foreground border-primary"
+                      : "bg-background text-muted-foreground border-border hover:border-primary hover:text-primary"
+                  )}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              {statuses.map((status) => (
+                <button
+                  key={status}
+                  type="button"
+                  onClick={() => handleStatusChange(status)}
+                  aria-pressed={activeStatus === status}
+                  className={cn(
+                    "rounded-full px-4 py-2 text-sm font-medium transition duration-200 border",
+                    activeStatus === status
+                      ? "bg-primary text-primary-foreground border-primary"
+                      : "bg-background text-muted-foreground border-border hover:border-primary hover:text-primary"
+                  )}
+                >
+                  {status}
+                </button>
+              ))}
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              {tags.map((tag) => (
+                <button
+                  key={tag}
+                  type="button"
+                  onClick={() => handleTagChange(tag)}
+                  aria-pressed={activeTag === tag}
+                  className={cn(
+                    "rounded-full px-4 py-2 text-sm font-medium transition duration-200 border",
+                    activeTag === tag
+                      ? "bg-primary text-primary-foreground border-primary"
+                      : "bg-background text-muted-foreground border-border hover:border-primary hover:text-primary"
+                  )}
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-2 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+            <p>
+              Showing <span className="font-semibold text-foreground">{filteredProjects.length}</span> project{filteredProjects.length === 1 ? "" : "s"}.
+            </p>
+            <p>
+              {activeCategory !== "All" && `Category: ${activeCategory}`}
+              {activeStatus !== "All" && ` ${activeCategory !== "All" ? "·" : ""} Status: ${activeStatus}`}
+              {activeTag !== "All" && ` ${activeStatus !== "All" || activeCategory !== "All" ? "·" : ""} Tag: ${activeTag}`}
+            </p>
+          </div>
+
+          {filteredProjects.length === 0 && (
+            <div className="rounded-3xl border border-border bg-muted p-8 text-center text-sm text-foreground">
+              <p className="font-semibold">No projects match that search yet.</p>
+              <p className="text-muted-foreground mt-2">Try another keyword or clear the filters.</p>
+            </div>
+          )}
         </motion.div>
 
         {/* Projects Grid */}
@@ -278,6 +349,7 @@ export const ProjectsSection = () => {
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                         className="p-3 rounded-full backdrop-blur-sm border bg-white/20 text-white border-white/30 hover:bg-white/30 transition-all duration-300"
+                        aria-label={`Play demo for ${project.title}`}
                       >
                         <Play size={20} />
                       </motion.button>
@@ -303,18 +375,32 @@ export const ProjectsSection = () => {
 
                   {/* Content Section */}
                   <div className="p-6 flex-1 flex flex-col">
-                    <div className="flex items-start justify-between mb-3">
-                      <h3 className="text-xl font-bold text-foreground">
-                        {project.title}
-                      </h3>
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between mb-3">
+                      <div>
+                        <h3 className="text-xl font-bold text-foreground">
+                          {project.title}
+                        </h3>
+                        <div className="mt-3 flex flex-wrap gap-2 text-xs text-muted-foreground">
+                          <span className="rounded-full border border-border bg-background px-3 py-1">
+                            {project.role}
+                          </span>
+                          <span className="rounded-full border border-border bg-background px-3 py-1">
+                            {project.timeline}
+                          </span>
+                          <span className="rounded-full border border-border bg-background px-3 py-1">
+                            {project.status}
+                          </span>
+                        </div>
+                      </div>
+
                       {project.featured && (
                         <motion.div 
-                          className="flex items-center gap-1 px-2 py-1 rounded-full bg-amber-500/20 text-amber-600 text-xs font-medium border border-amber-500/30"
+                          className="flex items-center gap-1 px-3 py-1 rounded-full bg-amber-500/20 text-amber-600 text-xs font-medium border border-amber-500/30"
                           initial={{ scale: 0 }}
                           animate={{ scale: 1 }}
                           transition={{ delay: index * 0.1 + 0.3 }}
                         >
-                          <Star size={12} className="fill-amber-500" /> 
+                          <Star size={12} className="fill-amber-500" />
                           Featured
                         </motion.div>
                       )}
@@ -344,19 +430,26 @@ export const ProjectsSection = () => {
                       ))}
                     </div>
 
+                    <div className="mb-4 rounded-3xl border border-border bg-muted p-4 text-sm text-muted-foreground">
+                      {project.impact}
+                    </div>
+
                     {/* Action Buttons */}
-                    <div className="flex gap-3 pt-4 border-t border-border">
+                    <div className="flex flex-col gap-3 pt-4 border-t border-border sm:flex-row">
                       <motion.a
                         href={project.demoUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        className={`flex-1 inline-flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 ${
+                        whileHover={{ scale: project.demoUrl === "#" ? 1 : 1.02 }}
+                        whileTap={{ scale: project.demoUrl === "#" ? 1 : 0.98 }}
+                        className={cn(
+                          "flex-1 inline-flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium transition-all duration-300",
                           project.demoUrl === "#"
                             ? "bg-muted text-muted-foreground cursor-not-allowed border border-border"
                             : "bg-primary text-primary-foreground hover:bg-primary/90"
-                        }`}
+                        )}
+                        aria-disabled={project.demoUrl === "#"}
+                        tabIndex={project.demoUrl === "#" ? -1 : 0}
                         onClick={(e) => project.demoUrl === "#" && e.preventDefault()}
                       >
                         <Eye size={16} />
@@ -367,13 +460,16 @@ export const ProjectsSection = () => {
                         href={project.githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        className={`inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-medium border transition-all duration-300 ${
+                        whileHover={{ scale: project.githubUrl === "#" ? 1 : 1.02 }}
+                        whileTap={{ scale: project.githubUrl === "#" ? 1 : 0.98 }}
+                        className={cn(
+                          "inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-medium border transition-all duration-300",
                           project.githubUrl === "#"
                             ? "bg-muted text-muted-foreground cursor-not-allowed border-border"
                             : "bg-background text-foreground border-border hover:border-primary hover:bg-primary/5"
-                        }`}
+                        )}
+                        aria-disabled={project.githubUrl === "#"}
+                        tabIndex={project.githubUrl === "#" ? -1 : 0}
                         onClick={(e) => project.githubUrl === "#" && e.preventDefault()}
                       >
                         <Github size={16} />
@@ -484,6 +580,9 @@ export const ProjectsSection = () => {
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
             onClick={handleCloseVideo}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="project-video-title"
           >
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
@@ -496,7 +595,7 @@ export const ProjectsSection = () => {
               {/* Modal Header */}
               <div className="flex items-center justify-between p-6 border-b border-border">
                 <div>
-                  <h3 className="text-xl font-bold text-foreground">
+                  <h3 id="project-video-title" className="text-xl font-bold text-foreground">
                     {selectedVideo.title} Demo
                   </h3>
                   <p className="text-muted-foreground text-sm">
@@ -504,10 +603,12 @@ export const ProjectsSection = () => {
                   </p>
                 </div>
                 <motion.button
+                  ref={closeButtonRef}
                   onClick={handleCloseVideo}
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   className="p-2 rounded-full hover:bg-muted transition-colors duration-200"
+                  aria-label="Close demo modal"
                 >
                   <X size={24} />
                 </motion.button>
