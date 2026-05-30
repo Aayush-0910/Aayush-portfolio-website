@@ -24,6 +24,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
+          cache-dependency-path: ./React-Portfolio-main/client/package-lock.json
       
       - name: 📦 Install dependencies
         working-directory: ./React-Portfolio-main/client
@@ -54,6 +55,7 @@ jobs:
         with:
           node-version: 20.x
           cache: 'npm'
+          cache-dependency-path: ./React-Portfolio-main/client/package-lock.json
       
       - name: 📦 Install dependencies
         working-directory: ./React-Portfolio-main/client

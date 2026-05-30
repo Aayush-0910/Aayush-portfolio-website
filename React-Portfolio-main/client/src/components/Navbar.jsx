@@ -9,7 +9,6 @@ import {
   BookOpen,
   Sun,
   Moon,
-  Youtube,
   Volume2,
   VolumeX,
   Github,
@@ -200,25 +199,6 @@ export const Navbar = () => {
           aria-label="LinkedIn Profile"
         >
           <Linkedin className="w-5 h-5" />
-        </motion.a>
-
-        {/* YouTube Button */}
-        <motion.a
-          href="https://www.youtube.com/@codewithkinu"
-          target="_blank"
-          rel="noopener noreferrer"
-          className={cn(
-            "p-2 rounded-full bg-white/80 dark:bg-black/80 backdrop-blur-md",
-            "text-red-600 hover:bg-red-100 dark:hover:bg-red-900/50",
-            "border border-gray-200 dark:border-gray-700 shadow-sm",
-            "flex items-center justify-center"
-          )}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          title="YouTube Channel"
-          aria-label="YouTube Channel"
-        >
-          <Youtube className="w-5 h-5" />
         </motion.a>
 
         {/* Music Button */}
