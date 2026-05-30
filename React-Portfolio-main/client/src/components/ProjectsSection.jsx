@@ -1,7 +1,7 @@
 import { ArrowRight, Github, ChevronUp, Star, Code, Sparkles, Zap, Play, Eye, X } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { projects } from "@/lib/projectsData";
+import projects from "@/lib/projectsData.json";
 import { cn } from "@/lib/utils";
 
 const categoryColors = {
