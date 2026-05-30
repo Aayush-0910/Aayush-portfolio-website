@@ -2,7 +2,6 @@ import {
   ArrowUp,
   Linkedin,
   Instagram,
-  Youtube,
   Github,
   Mail,
   Phone,
