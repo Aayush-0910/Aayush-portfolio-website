@@ -1,5 +1,6 @@
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, HTTPException, status, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel, EmailStr, Field
 import json
 import os
@@ -8,6 +9,17 @@ from database import init_db, get_db_connection
 from dotenv import load_dotenv
 
 load_dotenv()
+
+security = HTTPBearer()
+ADMIN_TOKEN = os.getenv("ADMIN_TOKEN", "supersecrettoken")
+
+def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    if credentials.credentials != ADMIN_TOKEN:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid or missing authentication token"
+        )
+    return credentials.credentials
 
 app = FastAPI(
     title="Aayush Portfolio API",
@@ -74,6 +86,21 @@ def save_contact(request: ContactRequest):
             "message": "Message saved successfully",
             "id": last_id
         }
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Database error: {str(e)}"
+        )
+
+@app.get("/api/messages")
+def get_messages(token: str = Depends(verify_token)):
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM messages ORDER BY created_at DESC")
+        messages = [dict(row) for row in cursor.fetchall()]
+        conn.close()
+        return messages
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
