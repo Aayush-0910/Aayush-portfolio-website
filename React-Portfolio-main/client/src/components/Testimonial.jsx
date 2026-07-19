@@ -13,7 +13,7 @@ export const TestimonialSection = () => {
   const testimonials = [
     {
       id: 1,
-      name: "Alex Johnson",
+      name: "Pranab",
       role: "Product Director at TechCorp",
       content: `Working with Aayush was seamless from day one. Not only did they deliver a full-stack solution ahead of schedule, but they also communicated clearly throughout the project. It's rare to find a developer who understands both the tech and the business side so well`,
       rating: 5,

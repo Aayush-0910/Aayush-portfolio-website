@@ -116,14 +116,14 @@ export const ProjectsSection = () => {
   }, [selectedVideo]);
 
   const ProjectHighlights = ({ highlights }) => (
-    <div className="space-y-2">
+    <ul className="space-y-1.5">
       {highlights.map((highlight, index) => (
-        <div key={index} className="flex items-center gap-2 text-sm">
-          <div className="w-1.5 h-1.5 bg-primary rounded-full" />
-          <span className="text-muted-foreground">{highlight}</span>
-        </div>
+        <li key={index} className="flex items-start gap-2 text-xs">
+          <span className="text-primary font-bold shrink-0 mt-0.5">✓</span>
+          <span className="text-muted-foreground/95 leading-relaxed">{highlight}</span>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 
   return (
@@ -308,38 +308,38 @@ export const ProjectsSection = () => {
                 onMouseEnter={() => setHoveredProject(project.id)}
                 onMouseLeave={() => setHoveredProject(null)}
               >
-                <div className="relative bg-background border border-border rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 h-full flex flex-col">
+                <div className="relative bg-white/70 dark:bg-slate-950/60 backdrop-blur-xl border border-gray-200/50 dark:border-slate-800/60 rounded-3xl overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-2.5 transition-all duration-500 h-full flex flex-col group/card">
                   
                   {/* Image/Video Section */}
                   <div className="relative h-48 overflow-hidden">
                     <motion.img
                       src={project.image}
                       alt={project.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105"
                       loading="lazy"
                     />
                     
                     {/* Status Badge */}
-                    <div className="absolute top-3 right-3">
-                      <div className={`px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm ${
-                        project.status === "Live" 
-                          ? "bg-emerald-500/20 text-emerald-600 border border-emerald-500/30"
-                          : "bg-amber-500/20 text-amber-600 border border-amber-500/30"
+                    <div className="absolute top-4 right-4">
+                      <div className={`px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-md shadow-sm ${
+                        project.status === "Live" || project.status === "Completed"
+                          ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/35"
+                          : "bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/35"
                       }`}>
                         {project.status}
                       </div>
                     </div>
 
                     {/* Category Badge */}
-                    <div className="absolute top-3 left-3">
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border ${categoryColors[project.category]}`}>
+                    <div className="absolute top-4 left-4">
+                      <span className={`px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-md shadow-sm border ${categoryColors[project.category] || "bg-primary/10 text-primary border-primary/30"}`}>
                         {project.category}
                       </span>
                     </div>
 
                     {/* Hover Actions */}
                     <motion.div 
-                      className="absolute inset-0 bg-black/50 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      className="absolute inset-0 bg-slate-950/40 flex items-center justify-center gap-4 opacity-0 group-hover/card:opacity-100 transition-opacity duration-300"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: hoveredProject === project.id ? 1 : 0 }}
                     >
@@ -348,7 +348,7 @@ export const ProjectsSection = () => {
                         onClick={() => handleVideoPlay(project)}
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
-                        className="p-3 rounded-full backdrop-blur-sm border bg-white/20 text-white border-white/30 hover:bg-white/30 transition-all duration-300"
+                        className="p-3 rounded-full backdrop-blur-md border bg-white/20 text-white border-white/40 hover:bg-white/30 transition-all duration-300 cursor-pointer"
                         aria-label={`Play demo for ${project.title}`}
                       >
                         <Play size={20} />
@@ -361,10 +361,10 @@ export const ProjectsSection = () => {
                         rel="noopener noreferrer"
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
-                        className={`p-3 rounded-full backdrop-blur-sm border transition-all duration-300 ${
+                        className={`p-3 rounded-full backdrop-blur-md border transition-all duration-300 cursor-pointer ${
                           project.githubUrl === "#" 
                             ? "bg-gray-500/50 text-gray-300 border-gray-500/30 cursor-not-allowed"
-                            : "bg-white/20 text-white border-white/30 hover:bg-white/30"
+                            : "bg-white/20 text-white border-white/40 hover:bg-white/30"
                         }`}
                         onClick={(e) => project.githubUrl === "#" && e.preventDefault()}
                       >
@@ -375,67 +375,59 @@ export const ProjectsSection = () => {
 
                   {/* Content Section */}
                   <div className="p-6 flex-1 flex flex-col">
-                    <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between mb-3">
-                      <div>
-                        <h3 className="text-xl font-bold text-foreground">
+                    <div className="mb-4">
+                      <div className="flex flex-wrap gap-2 text-[10px] uppercase tracking-wider font-semibold text-muted-foreground/80 mb-2">
+                        <span className="rounded-md bg-slate-100 dark:bg-slate-900/60 px-2.5 py-0.5 border border-border">
+                          {project.role}
+                        </span>
+                        <span className="rounded-md bg-slate-100 dark:bg-slate-900/60 px-2.5 py-0.5 border border-border">
+                          {project.timeline}
+                        </span>
+                      </div>
+                      
+                      <div className="flex items-start justify-between gap-2">
+                        <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 group-hover/card:text-primary transition-colors duration-300">
                           {project.title}
                         </h3>
-                        <div className="mt-3 flex flex-wrap gap-2 text-xs text-muted-foreground">
-                          <span className="rounded-full border border-border bg-background px-3 py-1">
-                            {project.role}
+                        {project.featured && (
+                          <span className="flex items-center gap-0.5 px-2 py-0.5 rounded bg-amber-500/10 text-amber-600 dark:text-amber-400 text-[10px] font-semibold border border-amber-500/20 shrink-0">
+                            <Star size={10} className="fill-amber-500" />
+                            Featured
                           </span>
-                          <span className="rounded-full border border-border bg-background px-3 py-1">
-                            {project.timeline}
-                          </span>
-                          <span className="rounded-full border border-border bg-background px-3 py-1">
-                            {project.status}
-                          </span>
-                        </div>
+                        )}
                       </div>
-
-                      {project.featured && (
-                        <motion.div 
-                          className="flex items-center gap-1 px-3 py-1 rounded-full bg-amber-500/20 text-amber-600 text-xs font-medium border border-amber-500/30"
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          transition={{ delay: index * 0.1 + 0.3 }}
-                        >
-                          <Star size={12} className="fill-amber-500" />
-                          Featured
-                        </motion.div>
-                      )}
                     </div>
 
-                    <p className="text-muted-foreground text-sm mb-4 leading-relaxed flex-1">
+                    <p className="text-muted-foreground text-sm mb-4 leading-relaxed line-clamp-3">
                       {project.description}
                     </p>
 
                     {/* Key Features */}
-                    <div className="mb-4">
+                    <div className="mb-4 border-t border-border/40 pt-3">
+                      <h4 className="text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">Highlights</h4>
                       <ProjectHighlights highlights={project.highlights} />
                     </div>
 
                     {/* Tech Stack */}
-                    <div className="flex flex-wrap gap-2 mb-4">
+                    <div className="flex flex-wrap gap-1.5 mb-4">
                       {project.tags.map((tag, tagIndex) => (
-                        <motion.span
+                        <span
                           key={tagIndex}
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: index * 0.1 + tagIndex * 0.05 + 0.4 }}
-                          className="px-3 py-1 rounded-lg bg-primary/10 text-primary text-xs font-medium border border-primary/20"
+                          className="px-2.5 py-0.5 rounded-md bg-primary/5 text-primary text-[11px] font-medium border border-primary/10"
                         >
                           {tag}
-                        </motion.span>
+                        </span>
                       ))}
                     </div>
 
-                    <div className="mb-4 rounded-3xl border border-border bg-muted p-4 text-sm text-muted-foreground">
+                    {/* Impact Section */}
+                    <div className="mt-auto mb-4 border-l-2 border-primary/40 bg-primary/5 dark:bg-primary/5 p-3 text-xs leading-relaxed text-muted-foreground rounded-r-xl">
+                      <span className="font-semibold text-primary block text-[10px] uppercase tracking-wider mb-0.5">Key Impact</span>
                       {project.impact}
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="flex flex-col gap-3 pt-4 border-t border-border sm:flex-row">
+                    <div className="flex gap-3 pt-4 border-t border-border/80">
                       <motion.a
                         href={project.demoUrl}
                         target="_blank"
@@ -443,10 +435,10 @@ export const ProjectsSection = () => {
                         whileHover={{ scale: project.demoUrl === "#" ? 1 : 1.02 }}
                         whileTap={{ scale: project.demoUrl === "#" ? 1 : 0.98 }}
                         className={cn(
-                          "flex-1 inline-flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium transition-all duration-300",
+                          "flex-1 inline-flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 cursor-pointer",
                           project.demoUrl === "#"
                             ? "bg-muted text-muted-foreground cursor-not-allowed border border-border"
-                            : "bg-primary text-primary-foreground hover:bg-primary/90"
+                            : "bg-primary text-primary-foreground hover:bg-primary/95 shadow-md shadow-primary/10 hover:shadow-lg hover:shadow-primary/20"
                         )}
                         aria-disabled={project.demoUrl === "#"}
                         tabIndex={project.demoUrl === "#" ? -1 : 0}
@@ -463,7 +455,7 @@ export const ProjectsSection = () => {
                         whileHover={{ scale: project.githubUrl === "#" ? 1 : 1.02 }}
                         whileTap={{ scale: project.githubUrl === "#" ? 1 : 0.98 }}
                         className={cn(
-                          "inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-medium border transition-all duration-300",
+                          "inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-sm font-medium border transition-all duration-300 cursor-pointer",
                           project.githubUrl === "#"
                             ? "bg-muted text-muted-foreground cursor-not-allowed border-border"
                             : "bg-background text-foreground border-border hover:border-primary hover:bg-primary/5"
@@ -478,8 +470,8 @@ export const ProjectsSection = () => {
                     </div>
                   </div>
 
-                  {/* Accent Border */}
-                  <div className={`h-1 bg-gradient-to-r ${project.accentColor}`} />
+                  {/* Accent Glow Line */}
+                  <div className={`h-1.5 w-full bg-gradient-to-r ${project.accentColor}`} />
                 </div>
               </motion.div>
             ))}

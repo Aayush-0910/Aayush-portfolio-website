@@ -165,7 +165,7 @@ export const Navbar = () => {
 
         {/* GitHub Button */}
         <motion.a
-          href="https://github.com/Aayush-0910" 
+          href="https://github.com/Aayush-0910"
           target="_blank"
           rel="noopener noreferrer"
           className={cn(
@@ -184,7 +184,7 @@ export const Navbar = () => {
 
         {/* LinkedIn Button */}
         <motion.a
-          href="https://www.linkedin.com/in/aayush-sinha-1a1a4b1a5/" 
+          href="https://www.linkedin.com/in/aayush-sinha-1a1a4b1a5/"
           target="_blank"
           rel="noopener noreferrer"
           className={cn(
