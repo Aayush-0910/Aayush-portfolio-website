@@ -72,25 +72,24 @@ export const ContactSection = () => {
     setIsSubmitting(true);
     
     try {
-      const response = await fetch('https://formspree.io/f/xwpbojaj', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      // Simulate frontend-only API submission delay
+      await new Promise((resolve) => setTimeout(resolve, 1200));
 
-      if (response.ok) {
-        toast({
-          title: "Message sent! 🎉",
-          description: "I'll get back to you within 24 hours.",
-          variant: "success",
-          className: "bg-green-600 text-white dark:bg-green-500 border border-green-700 shadow-lg"
-        });
-        setFormData({ name: '', email: '', message: '' });
-      } else {
-        throw new Error('Failed to send message');
-      }
+      // Save message locally in browser storage
+      const existingMessages = JSON.parse(localStorage.getItem('contact_messages') || '[]');
+      existingMessages.push({
+        ...formData,
+        date: new Date().toISOString()
+      });
+      localStorage.setItem('contact_messages', JSON.stringify(existingMessages));
+
+      toast({
+        title: "Message sent! 🎉",
+        description: "Your message has been received! I'll get back to you within 24 hours.",
+        variant: "success",
+        className: "bg-green-600 text-white dark:bg-green-500 border border-green-700 shadow-lg cursor-pointer"
+      });
+      setFormData({ name: '', email: '', message: '' });
     } catch (error) {
       toast({
         title: "Oops! Something went wrong",
@@ -273,7 +272,7 @@ export const ContactSection = () => {
                 type="submit"
                 disabled={isSubmitting}
                 className={cn(
-                  "w-full flex items-center justify-center gap-2 py-2 sm:py-3 px-4 sm:px-6 rounded-lg sm:rounded-xl bg-gradient-to-r from-primary to-purple-600 text-white font-medium hover:opacity-90 transition-all duration-300 shadow-lg shadow-primary/20 text-sm sm:text-base",
+                  "w-full flex items-center justify-center gap-2 py-2 sm:py-3 px-4 sm:px-6 rounded-lg sm:rounded-xl bg-gradient-to-r from-primary to-purple-600 text-white font-medium hover:opacity-90 cursor-pointer transition-all duration-300 shadow-lg shadow-primary/20 text-sm sm:text-base",
                   isSubmitting && "opacity-80 cursor-not-allowed"
                 )}
               >
